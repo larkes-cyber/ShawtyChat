@@ -1,6 +1,8 @@
 package com.example
 
-import io.ktor.server.application.*
+import com.example.di.mainModule
+import io.ktor.application.*
+import org.koin.ktor.ext.Koin
 import com.example.plugins.*
 
 fun main(args: Array<String>): Unit =
@@ -8,9 +10,12 @@ fun main(args: Array<String>): Unit =
 
 @Suppress("unused") // application.conf references the main function. This annotation prevents the IDE from marking it as unused.
 fun Application.module() {
+    install(Koin) {
+        modules(mainModule)
+    }
     configureSockets()
+    configureRouting()
     configureSerialization()
     configureMonitoring()
     configureSecurity()
-    configureRouting()
 }

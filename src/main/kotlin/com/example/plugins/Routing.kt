@@ -1,13 +1,16 @@
 package com.example.plugins
 
-import io.ktor.server.routing.*
-import io.ktor.server.response.*
-import io.ktor.server.application.*
+import com.example.room.RoomController
+import com.example.routes.chatSocket
+import io.ktor.application.*
+import io.ktor.routing.*
+import org.koin.java.KoinJavaComponent.inject
+import org.koin.ktor.ext.inject
+
 
 fun Application.configureRouting() {
-    routing {
-        get("/") {
-            call.respondText("Hello World!")
-        }
+    val roomController by inject<RoomController>()
+    install(Routing){
+        chatSocket(roomController = roomController)
     }
 }
